@@ -4,95 +4,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMain"
     tools:context=".MainActivity"
     android:onClick="deselect">
 
     <com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton
         android:id="@+id/button"
-        android:layout_width="170dp"
+        android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="124dp"
-        android:layout_marginEnd="10dp"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/button1"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/selector"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:show_currency="true" />
 
     <com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton
         android:id="@+id/button1"
-        android:layout_width="154dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="30dp"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/selector"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:show_currency="true" />
 
     <EditText
         android:id="@+id/edit1"
-        android:layout_width="136dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="162dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
-        android:text="1"
+        android:text="@string/_1"
+        android:textColor="#000000"
+        android:background="@drawable/myedittext"
+        android:paddingStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        tools:ignore="RtlSymmetry" />
 
     <EditText
         android:id="@+id/edit2"
-        android:layout_width="136dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="191dp"
-        android:layout_marginEnd="49dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
         android:ems="10"
-        android:text="1"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
+        android:text="@string/_1"
+        android:textColor="#000000"
+        android:background="@drawable/myedittext"
+        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edit1"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        tools:ignore="RtlSymmetry" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginBottom="141dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="161dp"
+        android:background="@drawable/mybutton"
+        android:text="@string/locate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit1" />
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="182dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="174dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_popup_sync" />
+        android:layout_width="56dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="27dp"
+        app:layout_constraintEnd_toStartOf="@+id/button1"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:srcCompat="@drawable/sw"
+        android:contentDescription="@string/photo" />
 
     <Button
         android:id="@+id/buttonReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="30dp"
-        android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="161dp"
+        android:background="@drawable/mybutton"
+        android:text="@string/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="88dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="Roboto-Condensed bold italic"
+        android:text="@string/app_name"
+        android:textColor="@color/colorTitle"
+        android:textSize="80sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="-15dp"
+        android:text="@string/app_company"
+        android:textColor="@color/colorTitle"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">currency converter</string>
+    <string name="app_name">CHS</string>
+    <string name="app_company">currency converter</string>
+    <string name="reset">Reset</string>
+    <string name="photo">TODO</string>
+    <string name="locate">Locate</string>
+    <string name="_1">1</string>
 </resources>
