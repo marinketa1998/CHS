@@ -32,6 +32,7 @@ import com.scrounger.countrycurrencypicker.library.Listener.CountryCurrencyPicke
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -45,139 +46,38 @@ public class MainActivity extends AppCompatActivity  {
     Double rate = 0.0;
     FusedLocationProviderClient fusedLocationProviderClient;
     String s;
-    String k;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        s = locationHandler();
+        initialization();
         firstButton();
         secondButton();
-        third();
-        swapButtonimp();
+        locateButton();
         resetButton();
-        edit1 = (EditText) findViewById(R.id.edit1);
-        edit2 = (EditText) findViewById(R.id.edit2);
-        getResult3();
-        //edit2.setText(str);
+        swapButtonimp();
+        getToBeFirstf();
         textChanged();
         textChanged2();
 
-
-
-        // rate = APIHandler.getRate(MainActivity.this,toBeConverted,converted);
-
     }
 
-    private void resetButton() {
+    private void initialization() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        s = locationHandler();
         buttonReset = (Button) findViewById(R.id.buttonReset);
-
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                edit1.setText("1");
-                getResult3();
-            }
-        });
-
-    }
-
-    private void swapButtonimp() {
         swapButton = (ImageButton) findViewById(R.id.imageButton);
-
-        swapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Country c = button.getCountry();
-                button.setCountry(button1.getCountry());
-                button1.setCountry(c);
-
-                String conv = converted;
-                converted = toBeConverted;
-                toBeConverted = conv;
-                getResult3();
-            }
-        });
-    }
-
-    private String locationHandler() {
-        String ss = "US";
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            ss=getLocation();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
-        return ss;
-    }
-    private void third() {
         button3 = (Button) findViewById(R.id.button3);
-        button3.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                getLocation();
-                button.setCountry(s);
-                toBeConverted = button.getCountry().getCurrency().getCode();
-                getResult3();
-                ///getResult3();
-                Toast.makeText(MainActivity.this,
-                        // String.format("name: %s\ncode: %s", country.getName(), country.getCode())
-                        String.format("%s", s)
-                        , Toast.LENGTH_LONG).show();
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
-
-             //   inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-               //         InputMethodManager.HIDE_NOT_ALWAYS);
-                edit1.clearFocus();
-            }
-        });
-    }
-    private String getLocation() {
-         String ss = "";
-        final String[] c = new String[1];
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-            return ss;
-        }else{
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            //String ss = "";
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if (location != null) {
-                    try {
-                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-                        List<Address> adresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        Log.e("s", "ceva lat/log" + location.getLatitude() + "/" + location.getLongitude() + adresses.get(0).getCountryCode());
-                        Toast.makeText(MainActivity.this,
-                                // String.format("name: %s\ncode: %s", country.getName(), country.getCode())
-                                String.format("masj %s", adresses.get(0).getCountryCode())
-                                , Toast.LENGTH_LONG).show();
-                       s = adresses.get(0).getCountryCode().toString();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        ss = s;
-        return ss;
-        }
-    }
-    private void firstButton(){
         button = (CountryCurrencyButton) findViewById(R.id.button);
+        button1 = (CountryCurrencyButton) findViewById(R.id.button1);
+        edit1 = (EditText) findViewById(R.id.edit1);
+        edit2 = (EditText) findViewById(R.id.edit2);
+    }
+
+    private void firstButton(){
         button.setCountry(first);
-        toBeConverted = button.getCountry().getCurrency().getCode();
+        toBeConverted = Objects.requireNonNull(button.getCountry().getCurrency()).getCode().toString();
         button.setOnClickListener(new CountryCurrencyPickerListener() {
             @Override
             public void onSelectCountry(Country country) {
@@ -191,8 +91,9 @@ public class MainActivity extends AppCompatActivity  {
                             , Toast.LENGTH_SHORT).show();
                     Log.e("ms", "cea: " + country.getCurrency().getCode());
                 }
-                Log.e("maki", "1231");
-                getResult3();
+                toBeConverted = country.getCurrency().getCode().toString();
+                Log.e("maki", "1231"+toBeConverted);
+                getToBeFirstf();
             }
 
             @Override
@@ -201,10 +102,11 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
     }
+
     private void secondButton() {
         button1 = (CountryCurrencyButton) findViewById(R.id.button1);
         button1.setCountry(second);
-        converted = button1.getCountry().getCurrency().getCode();
+        converted = Objects.requireNonNull(button1.getCountry().getCurrency()).getCode();
         button1.setOnClickListener(new CountryCurrencyPickerListener() {
             @Override
             public void onSelectCountry(Country country) {
@@ -220,8 +122,8 @@ public class MainActivity extends AppCompatActivity  {
                 Log.e("at", "1231");
 
                 converted = country.getCurrency().getCode().toString();
-                Log.e("at", "}}}"+toBeConverted);
-                getResult4();
+                Log.e("makii", "}}}"+converted);
+                getToBeFirstf();
             }
 
             @Override
@@ -230,7 +132,100 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
     }
-    private void getResult1() {
+
+    private void locateButton() {
+        button3 = (Button) findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                getLocation();
+                button.setCountry(s);
+                toBeConverted = Objects.requireNonNull(button.getCountry().getCurrency()).getCode();
+                getToBeFirstf();
+                ///getResult3();
+                Toast.makeText(MainActivity.this,
+                        // String.format("name: %s\ncode: %s", country.getName(), country.getCode())
+                        String.format("%s", s)
+                        , Toast.LENGTH_LONG).show();
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                //   inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                //         InputMethodManager.HIDE_NOT_ALWAYS);
+                edit1.clearFocus();
+            }
+        });
+    }
+    private void resetButton() {
+
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit1.setText("1");
+                getToBeFirstf();
+            }
+        });
+
+    }
+
+    private void swapButtonimp() {
+
+        swapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Country c = button.getCountry();
+                button.setCountry(button1.getCountry());
+                button1.setCountry(c);
+
+                String conv = converted;
+                converted = toBeConverted;
+                toBeConverted = conv;
+                getToBeFirstf();
+            }
+        });
+    }
+
+    private String locationHandler() {
+        String ss = "US";
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            ss=getLocation();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+        return ss;
+    }
+
+    private String getLocation() {
+         String ss = "";
+        final String[] c = new String[1];
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            return ss;
+        }else{
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            //String ss = "";
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null) {
+                    try {
+                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                        List<Address> adresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        Log.e("s", "ceva lat/log" + location.getLatitude() + "/" + location.getLongitude() + adresses.get(0).getCountryCode());
+                       s = adresses.get(0).getCountryCode();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        ss = s;
+        return ss;
+        }
+    }
+
+    private void getToBeFirst() {
         rate = APIHandler.getRate(MainActivity.this,toBeConverted,converted);
         String str = String.valueOf(Double.parseDouble(edit1.getText().toString())*rate);
         Log.e("at", "afsssster1" + str);
@@ -244,7 +239,7 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    private void getResult2() {
+    private void getConvFirst() {
         rate = APIHandler.getRate(MainActivity.this,converted,toBeConverted);
         String str = String.valueOf(Double.parseDouble(edit2.getText().toString())*rate);
         Log.e("at", "after1" + str);
@@ -259,8 +254,9 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    private void getResult3() {
+    private void getToBeFirstf() {
         rate = APIHandler.getRate(MainActivity.this,toBeConverted,converted);
+       // Log.e("aaati3", "convert" + converted + "toBe"+toBeConverted+"rate"+rate);
         String str = String.valueOf(Double.parseDouble(edit1.getText().toString())*rate);
         if(str.length()>12) {
             String s = str.substring(0, 12);
@@ -270,39 +266,26 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    private void getResult4() {
-        rate = APIHandler.getRate(MainActivity.this,converted,toBeConverted);
-        String str = String.valueOf(Double.parseDouble(edit2.getText().toString())*rate);
-        if(str.length()>12) {
-            Log.e("at", "afteerer1" + str);
-            String s = str.substring(0, 12);
-            Log.e("aaat", "afteerer1" + str);
-            edit2.setText(s);
-        } else {
-            edit2.setText(str);
-        }
 
-    }
     private void textChanged(){
         edit1.addTextChangedListener(new TextWatcher(){
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.e("wat","bef");
+               // Log.e("wat","bef");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-               Log.e("wat","on");
+              // Log.e("wat","on");
               /// edit2.setText(String.valueOf(getResult()));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-               Log.e("wat","after"+edit2.getText());
-                Log.e("wat","after1"+edit1.getText());
+              // Log.e("wat","after"+edit2.getText());
                 if (edit1.getText().length()>0) {
-                    getResult1();
+                    getToBeFirst();
                 }
             }
         });
@@ -312,26 +295,23 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.e("wat", "bef");
+             //   Log.e("wat", "bef");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e("wat", "on");
+              //  Log.e("wat", "on");
                 /// edit2.setText(String.valueOf(getResult()));
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (edit2.getText() == null || edit2.getText().equals("")) {
-                } else{
-                    Log.e("wat", "after" + edit2.getText());
-                    Log.e("wat", "after1" + edit1.getText());
+                   // Log.e("wat", "after" + edit2.getText());
                     if (edit2.getText().length()>0){
-                        getResult2();
+                        getConvFirst();
                     }
-                }
+
             }
         });
     }
@@ -340,7 +320,7 @@ public class MainActivity extends AppCompatActivity  {
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+        inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
         edit1.clearFocus();
         edit2.clearFocus();
