@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.InputStreamReader;
 
-public class httpGet extends AsyncTask<String, Void, String> {
+public class HttpGet extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params){
         String urlString = params[0];

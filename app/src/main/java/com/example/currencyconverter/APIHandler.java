@@ -25,7 +25,7 @@ public class APIHandler {
                 //String jsonStr = sh.makeServiceCall(api);
                 String result;
                 //Instantiate new instance of our class
-                httpGet getRequest = new httpGet();
+                HttpGet getRequest = new HttpGet();
                 //Perform the doInBackground method, passing in our url
                 result = getRequest.execute(apii).get();
                 Log.e("msi", "Response from url: " + apii+" " + result);
